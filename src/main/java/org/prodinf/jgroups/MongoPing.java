@@ -44,10 +44,10 @@ public class MongoPing extends Discovery {
 	/**
 	 * 
 	 * url from mongo. For examples see http://docs.mongodb.org/manual/reference/connection-string/#examples
-	 * Default value:mongodb://localhost:27017
+	 * Default value:mongodb://127.0.0.1:27017
 	 */
 	@Property(description = "mongo url connection")
-	public String mongourl = "mongodb://localhost:27017";
+	public String mongourl = "mongodb://127.0.0.1:27017";
 	/**
 	 * Interval (in milliseconds) at which the own Address is written. 0 disables it.
 	 * Default value 3000 ms =3 seconds
