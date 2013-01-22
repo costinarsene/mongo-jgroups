@@ -9,3 +9,18 @@ dependencies {
 	compile ('org.mongodb:mongo-java-driver:2.10.1'){transitive= false}
 	compile ('commons-logging:commons-logging:1.1.1'){transitive= false}
 }
+
+task run(dependsOn:'test') <<{
+        ant.java(classname: 'org.prodinf.jgroups.swing.Test', fork: true){
+		jvmarg(value: '-Djava.net.preferIPv4Stack=true') 
+		jvmarg(value: '-Dcom.sun.management.jmxremote.authenticate=false')
+		//jvmarg(value: '-Dcom.sun.management.jmxremote.port=3000')
+			classpath
+			{
+				pathElement( path: configurations.compile.asPath )
+				pathElement( path:new File(new File(project.buildDir,'classes'),"main"))
+				pathElement( path:new File(new File(project.buildDir,'classes'),"test"))
+				pathElement( path:new File(new File(project.buildDir,'resources'),'test'))
+			}
+		}
+}
