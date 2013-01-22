@@ -146,7 +146,7 @@ public class MongoPing extends Discovery {
 		return retval;
 	}
 
-	protected void handleView(View view) {
+	private void handleView(View view) {
 		Collection<Address> mbrs = view.getMembers();
 		boolean is_coordinator = !mbrs.isEmpty() && mbrs.iterator().next().equals(local_addr);
 		if (is_coordinator) {
@@ -168,7 +168,7 @@ public class MongoPing extends Discovery {
 		}
 	}
 
-	protected void remove(String clustername, Address addr, WriteConcern concern) {
+	private void remove(String clustername, Address addr, WriteConcern concern) {
 		if (clustername == null || addr == null) {
 			return;
 		}
@@ -203,7 +203,7 @@ public class MongoPing extends Discovery {
 	 * 
 	 * @return
 	 */
-	protected synchronized List<PingData> readAll(String clustername) {
+	private synchronized List<PingData> readAll(String clustername) {
 		if (log.isDebugEnabled()) {
 			log.debug("reading all : " + clustername);
 		}
@@ -243,7 +243,7 @@ public class MongoPing extends Discovery {
 		}
 	}
 
-	protected String addressAsString(Address address) {
+	private String addressAsString(Address address) {
 		if (address == null) {
 			return EMPTY_STR;
 		}
