@@ -41,26 +41,50 @@ public class MongoPing extends Discovery {
 	private static final String EMPTY_STR = "";
 
 	private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MongoPing.class);
-
+	/**
+	 * 
+	 * url from mongo. For examples see http://docs.mongodb.org/manual/reference/connection-string/#examples
+	 * Default value:mongodb://localhost:27017
+	 */
 	@Property(description = "mongo url connection")
 	public String mongourl = "mongodb://localhost:27017";
+	/**
+	 * Interval (in milliseconds) at which the own Address is written. 0 disables it.
+	 * Default value 3000 ms =3 seconds
+	 */
 	@Property(description = "Interval (in milliseconds) at which the own Address is written. 0 disables it.")
 	public long interval = 30000;
 
+	/**
+	 * name of the ping column in the mongo collection.
+	 * Default value PING_DATA
+	 */
 	@Property(description = "name of the ping column in the mongo collection")
 	public String pingColumnName = "PING_DATA";
-
+	/**
+	 * name of the cluster column in the mongo collection.
+	 * Default value CLUSTER
+	 */
 	@Property(description = "name of the cluster column in the mongo collection")
-	public String clusterColumnName = "cluster";
-
+	public String clusterColumnName = "CLUSTER";
+	/**
+	 * name of the address column in the mongo collection
+	 * Default value ADR
+	 */
 	@Property(description = "name of the address column in the mongo collection")
-	public String addresColumnName = "ADDRES";
-
+	public String addresColumnName = "ADR";
+	/**
+	 * name of the database where the members are stored
+	 * Default value COMMUNICATION
+	 */
 	@Property(description = "name of the database where the members are stored")
 	public String databaseName = "COMMUNICATION";
-
+	/**
+	 * name of the collection from the database where the members are stored
+	 * Default value JGROUPSMEMBERS
+	 */
 	@Property(description = "name of the collection from the database where the members are stored")
-	public String collectionName = "COMMUNICATION";
+	public String collectionName = "JGROUPSMEMBERS";
 
 	private DBCollection mongoCollection = null;
 	private Mongo mongo;
@@ -314,7 +338,7 @@ public class MongoPing extends Discovery {
 	public boolean sendDiscoveryRequestsInParallel() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean isDynamic() {
 		return true;
