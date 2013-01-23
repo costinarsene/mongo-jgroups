@@ -10,7 +10,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -79,10 +81,10 @@ public class ShowFrame extends JFrame implements MembershipListener {
     membersList = new JList();
     System.out.println("Identified members:" + channel.getView().getMembers());
     extractMembers(channel.getView().getMembers());
-    
-  
-    
-    this.getContentPane().add(new JScrollPane(membersList), BorderLayout.EAST);
+    JPanel memebersPanel=new JPanel(new BorderLayout());
+    memebersPanel.add(new JLabel("Members"), BorderLayout.NORTH);
+    memebersPanel.add(new JScrollPane(membersList), BorderLayout.CENTER);
+    this.getContentPane().add(memebersPanel, BorderLayout.EAST);
     this.getContentPane().add(new JScrollPane(messageWindow), BorderLayout.CENTER);
     this.getContentPane().add(button, BorderLayout.SOUTH);
   }
