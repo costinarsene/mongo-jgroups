@@ -4,6 +4,10 @@ apply plugin: 'maven'
 repositories {
     mavenCentral()
 }
+sourceCompatibility="1.5"
+targetCompatibility="1.5"
+archivesBaseName="mongoping"
+version=getVersion()
 dependencies {
     compile ('org.jgroups:jgroups:3.2.5.Final'){transitive= false} 
 	compile ('org.mongodb:mongo-java-driver:2.10.1'){transitive= false}
@@ -23,4 +27,16 @@ task run(dependsOn:'test') <<{
 				pathElement( path:new File(new File(project.buildDir,'resources'),'test'))
 			}
 		}
+}
+
+def getVersion(){
+def value=System.getenv("SVN_TAG");
+  if(value!=null){
+  return value;
+  }
+  value=System.getProperty("SVN_TAG");
+  if(value!=null){
+  return value;
+  }
+  return "trunk"
 }
