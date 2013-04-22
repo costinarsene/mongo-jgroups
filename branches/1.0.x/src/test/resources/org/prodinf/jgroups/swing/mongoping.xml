@@ -1,0 +1,19 @@
+
+
+<config>
+  
+  <TCP/>
+  <org.prodinf.jgroups.MongoPing  timeout="1000"  />
+  
+  <MERGE2 max_interval="30000" min_interval="10000" />
+  <FD timeout="1000" max_tries="1" />
+  <VERIFY_SUSPECT timeout="1500" />
+  <pbcast.NAKACK use_mcast_xmit="false" retransmit_timeout="600,1200,2400,4800" />
+  <pbcast.STABLE stability_delay="1000" desired_avg_gossip="20000" max_bytes="0" />
+  <pbcast.GMS print_local_addr="true" join_timeout="2000" />
+  <UFC max_credits="2m"
+       min_threshold="0.40"/>
+  <MFC max_credits="2m"
+       min_threshold="0.40"/>
+  <FRAG2 frag_size="60000" />
+</config>
