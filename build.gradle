@@ -4,6 +4,7 @@ apply plugin: 'maven'
 repositories {
     mavenCentral()
 }
+ group = 'org.prodinf'
 sourceCompatibility="1.5"
 targetCompatibility="1.5"
 archivesBaseName="mongoping"
@@ -40,3 +41,32 @@ def value=System.getenv("SVN_TAG");
   }
   return "trunk"
 }
+	task sourcesJar(type: Jar, dependsOn:classes) {
+		 classifier = 'sources'
+		 from sourceSets.main.allSource
+	}
+	 
+	task javadocJar(type: Jar, dependsOn:javadoc) {
+		 classifier = 'javadoc'
+		 from javadoc.destinationDir
+	}
+
+ 
+	 
+	// add javadoc/source jar tasks as artifacts
+	artifacts {
+		 archives sourcesJar
+		 archives javadocJar
+	}
+		
+		
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				configuration = configurations.archives
+				repository(url: "http://subversion:8091/artifactory/libs-release-local"){
+					authentication(userName: "admin", password: "password")
+				}
+			}
+		}
+	}
