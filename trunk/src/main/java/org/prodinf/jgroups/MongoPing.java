@@ -155,10 +155,10 @@ public class MongoPing extends Discovery {
 			writer_future.cancel(false);
 			writer_future = null;
 		}
-		closeMongoInstance();
+		
 		remove(name, local_addr, WriteConcern.NONE);
-		super.destroy(); // To change body of generated methods, choose Tools |
-		                 // Templates.
+		closeMongoInstance();
+		super.destroy();
 	}
 
 	@Override
