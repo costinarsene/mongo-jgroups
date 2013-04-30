@@ -1,0 +1,72 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+repositories {
+    mavenCentral()
+}
+ group = 'org.prodinf'
+sourceCompatibility="1.5"
+targetCompatibility="1.5"
+archivesBaseName="mongoping"
+version=getVersion()
+dependencies {
+    compile ('org.jgroups:jgroups:3.2.5.Final'){transitive= false} 
+	compile ('org.mongodb:mongo-java-driver:2.10.1'){transitive= false}
+	compile ('commons-logging:commons-logging:1.1.1'){transitive= false}
+}
+
+task run(dependsOn:'test') <<{
+        ant.java(classname: 'org.prodinf.jgroups.swing.Test', fork: true){
+		jvmarg(value: '-Djava.net.preferIPv4Stack=true') 
+		jvmarg(value: '-Dcom.sun.management.jmxremote.authenticate=false')
+		//jvmarg(value: '-Dcom.sun.management.jmxremote.port=3000')
+			classpath
+			{
+				pathElement( path: configurations.compile.asPath )
+				pathElement( path:new File(new File(project.buildDir,'classes'),"main"))
+				pathElement( path:new File(new File(project.buildDir,'classes'),"test"))
+				pathElement( path:new File(new File(project.buildDir,'resources'),'test'))
+			}
+		}
+}
+
+def getVersion(){
+def value=System.getenv("SVN_TAG");
+  if(value!=null){
+  return value;
+  }
+  value=System.getProperty("SVN_TAG");
+  if(value!=null){
+  return value;
+  }
+  return "trunk"
+}
+	task sourcesJar(type: Jar, dependsOn:classes) {
+		 classifier = 'sources'
+		 from sourceSets.main.allSource
+	}
+	 
+	task javadocJar(type: Jar, dependsOn:javadoc) {
+		 classifier = 'javadoc'
+		 from javadoc.destinationDir
+	}
+
+ 
+	 
+	// add javadoc/source jar tasks as artifacts
+	artifacts {
+		 archives sourcesJar
+		 archives javadocJar
+	}
+		
+		
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				configuration = configurations.archives
+				repository(url: "http://subversion:8091/artifactory/libs-release-local"){
+					authentication(userName: "admin", password: "password")
+				}
+			}
+		}
+	}
