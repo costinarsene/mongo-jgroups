@@ -201,9 +201,14 @@ public class MongoPing extends Discovery {
 		if (log.isInfoEnabled()) {
 			log.info("removing address " + uk + " from cluster" + clustername);
 		}
-		mongoCollection.remove(new BasicDBObject(this.addresColumnName, uk), concern);
-
-	}
+                try {
+                    if (mongoCollection.getDB().getMongo().getConnector().isOpen()) {
+                        mongoCollection.remove(new BasicDBObject(this.addresColumnName, uk), concern);
+                    }
+                } catch (Exception e) {
+                    log.warn("Unable to remove the node. Operation will continue", e);
+                }
+        }
 
 	private synchronized PingData readValue(DBObject memeber) {
 		PingData retval = null;
